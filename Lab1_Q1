@@ -1,0 +1,103 @@
+// 1. Wap to search using BST.
+
+#include <iostream>
+using namespace std;
+
+
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+
+    Node(int key) {
+        val = key;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+
+class BST {
+public:
+    Node* root;
+
+    BST() {
+        root = nullptr;
+    }
+
+    void insert(int key) {
+        if (root == nullptr) {
+            root = new Node(key);
+        } else {
+            insertRec(root, key);
+        }
+    }
+
+    void insertRec(Node* node, int key) {
+        if (key < node->val) {
+            if (node->left == nullptr) {
+                node->left = new Node(key);
+            } else {
+                insertRec(node->left, key);
+            }
+        } else {
+            if (node->right == nullptr) {
+                node->right = new Node(key);
+            } else {
+                insertRec(node->right, key);
+            }
+        }
+    }
+
+    Node* search(int key) {
+        return searchRec(root, key);
+    }
+
+    Node* searchRec(Node* node, int key) {
+        if (node == nullptr || node->val == key) {
+            return node;
+        }
+
+        if (key > node->val) {
+            return searchRec(node->right, key);
+        }
+
+        return searchRec(node->left, key);
+    }
+};
+
+int main() {
+    BST bst;
+
+   
+    cout << "Enter values to insert into the BST (type -1 to finish):" << endl;
+    while (true) {
+        int value;
+        cout << "Enter a value: ";
+        cin >> value;
+        if (value == -1) { 
+            break;
+        }
+        bst.insert(value);
+    }
+
+ 
+    cout << "Enter values to search in the BST (type -1 to finish):" << endl;
+    while (true) {
+        int search_value;
+        cout << "Enter a value to search: ";
+        cin >> search_value;
+        if (search_value == -1) { 
+            break;
+        }
+        Node* result = bst.search(search_value);
+        if (result) {
+            cout << "Value " << search_value << " found in BST." << endl;
+        } else {
+            cout << "Value " << search_value << " not found in BST." << endl;
+        }
+    }
+
+    return 0;
+}
