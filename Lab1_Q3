@@ -1,0 +1,75 @@
+// 3. Wap to sort the data using merge sort.
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void mergeSort(vector<double>& arr) {
+    if (arr.size() > 1) {
+        size_t mid = arr.size() / 2; 
+        vector<double> leftHalf(arr.begin(), arr.begin() + mid); 
+        vector<double> rightHalf(arr.begin() + mid, arr.end());
+
+        mergeSort(leftHalf);  
+        mergeSort(rightHalf); 
+
+        size_t i = 0, j = 0, k = 0;
+
+        
+        while (i < leftHalf.size() && j < rightHalf.size()) {
+            if (leftHalf[i] < rightHalf[j]) {
+                arr[k++] = leftHalf[i++];
+            } else {
+                arr[k++] = rightHalf[j++];
+            }
+        }
+
+        
+        while (i < leftHalf.size()) {
+            arr[k++] = leftHalf[i++];
+        }
+
+        while (j < rightHalf.size()) {
+            arr[k++] = rightHalf[j++];
+        }
+    }
+}
+
+int main() {
+    cout << "Enter numbers to sort (type 'done' to finish):" << endl;
+    vector<double> numbers;
+    string input;
+
+    while (true) {
+        cout << "Enter a number: ";
+        cin >> input;
+
+        if (input == "done") {
+            break;
+        }
+
+        try {
+            double value = stod(input); 
+            numbers.push_back(value);
+        } catch (const invalid_argument&) {
+            cout << "Please enter a valid number." << endl;
+        }
+    }
+
+    cout << "Original list: ";
+    for (const double& num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    mergeSort(numbers);
+
+    cout << "Sorted list: ";
+    for (const double& num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
