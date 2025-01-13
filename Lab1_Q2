@@ -1,0 +1,60 @@
+// 2. Wap to find the min-max using min-max algorithm.
+
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+pair<double, double> findMinMax(const vector<double>& numbers) {
+    if (numbers.empty()) {
+        return {numeric_limits<double>::quiet_NaN(), numeric_limits<double>::quiet_NaN()}; // Return NaN if the list is empty
+    }
+
+    double minValue = numbers[0];
+    double maxValue = numbers[0];
+
+    for (double number : numbers) {
+        if (number < minValue) {
+            minValue = number;
+        }
+        if (number > maxValue) {
+            maxValue = number;
+        }
+    }
+
+    return {minValue, maxValue};
+}
+
+int main() {
+    cout << "Enter numbers to find the minimum and maximum (type 'done' to finish):" << endl;
+    vector<double> numbers;
+    string input;
+
+    while (true) {
+        cout << "Enter a number: ";
+        cin >> input;
+
+        if (input == "done") {
+            break;
+        }
+
+        try {
+            double value = stod(input);
+            numbers.push_back(value);
+        } catch (const invalid_argument&) {
+            cout << "Please enter a valid number." << endl;
+        }
+    }
+
+    auto [minValue, maxValue] = findMinMax(numbers);
+
+    if (!isnan(minValue) && !isnan(maxValue)) {
+        cout << "The minimum value is: " << minValue << endl;
+        cout << "The maximum value is: " << maxValue << endl;
+    } else {
+        cout << "No numbers were entered." << endl;
+    }
+
+    return 0;
+}
